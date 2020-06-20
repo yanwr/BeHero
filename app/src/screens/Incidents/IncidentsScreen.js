@@ -22,6 +22,7 @@ export default function IncidentsScreen(props){
             if(totalItens > 0 && incidents.length === totalItens){
                 return;
             }
+            console.log("Somente teste");
             setLoading(true);
             const result = await HttpRequest.get(`/incidents?page=${page}`);
             setIncidents([...incidents, ...result.data.incidents]);
