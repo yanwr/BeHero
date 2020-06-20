@@ -1,10 +1,10 @@
 const Connection = require('../../database/Connection'); 
-const crypto = require('crypto');
+const generateUniqueId = require('../../utils/User/generateUniqueId');
 
 module.exports = {
     async store(request, response){
         const { name, email, whatsapp, uf, city} = request.body;
-        const id = crypto.randomBytes(4).toString('HEX');
+        const id = generateUniqueId();
 
         String.prototype.isNumberValid = function(index, string) {
             if (this.indexOf('+55') != -1 || this.indexOf('55')  != -1 )
