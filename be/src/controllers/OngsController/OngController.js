@@ -6,7 +6,7 @@ module.exports = {
         const { name, email, whatsapp, uf, city} = request.body;
         const id = crypto.randomBytes(4).toString('HEX');
 
-        String.prototype.insert = function(index, string) {
+        String.prototype.isNumberValid = function(index, string) {
             if (this.indexOf('+55') != -1 || this.indexOf('55')  != -1 )
             {
               return this;
@@ -21,7 +21,7 @@ module.exports = {
             id, 
             name, 
             email, 
-            'whatsapp': wpp.insert(0, '+55 '),
+            'whatsapp': wpp.isNumberValid(0, '+55 '),
             city,
             uf, 
         });
