@@ -9,7 +9,7 @@
 
 body {
     font: 400 14px Roboto, sans-serif;
-    background-color: #f0f0f5;
+    background-color: #FFFFFF;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -41,7 +41,7 @@ form textarea {
     line-height: 24px;
 }
 
-.btn {
+.btnCustom {
     width: 100%;
     height: 60px;
     background-color: #e02041;
@@ -58,11 +58,11 @@ form textarea {
     transition: filter 0.3s;
 }
 
-.btn:hover {
+.btnCustom:hover {
     filter: brightness(90%);
 }
 
-.btn-link {
+#linkRegister {
     display: flex;
     align-items: center;
     margin-top: 40px;
@@ -73,11 +73,11 @@ form textarea {
     transition: opacity 0.2s;
 }
 
-.btn-link:hover{
+.btnCustom-link:hover{
     opacity: 0.8;
 }
 
-.btn-link svg {
+.btnCustom-link svg {
     margin-right: 8px;
 
 }
