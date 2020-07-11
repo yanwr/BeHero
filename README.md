@@ -10,7 +10,7 @@
 <br>
 
 <p align="center">
-  <img alt="BeTheHero" src=".github/bethehero.png" width="100%">
+  <img alt="BeTheHero" src="./bethehero.png" width="100%">
 </p>
 
 ## :rocket: Tecnologias
