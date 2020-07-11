@@ -1,61 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import './css.css';
 import { Link, useHistory } from 'react-router-dom';
 import { FiPower } from 'react-icons/fi';
 import SmallLogo from '../../assets/logo.svg';
 import IncidentsList from '../../components/IncidentsList/IncidentsList';
-import HttpRequest from '../../shared/httpRequest/HttpRequest';
+import { handleDoLogout } from '../../shared/session/Session.reducer';
+import Loading from '../../components/Loading/Loading';
+import { getIncidentsList, deleteAnItem } from './IncidentsPage.reducer';
 
-export default function IncidentsPage(props) {
-    const ongName = localStorage.getItem('ongName');
-    const ongId = localStorage.getItem('ongId');
+function IncidentsPage(props) {
     const navigation = useHistory();
-    const [incidents, setIncidents] = useState([]);
     
     useEffect(() => {
-        HttpRequest.get('profile', {
-          headers: {
-            Authorization: ongId,
-          }
-        }).then(response => {
-            console.log('--------------------', response);
-          setIncidents(response.data.incidents);
-        })
-    }, [ongId]);
+      props.getIncidentsList();
+    }, []);
 
-    async function handleDeleteIncident(id) {
-        try {
-          await HttpRequest.delete(`/incidents/${id}`, {
-            headers: {
-              Authorization: ongId,
-            }
-          });
-          setIncidents(incidents.filter(incident => incident.id !== id));
-        } catch (err) {
-          alert('Erro ao deletar caso, tente novamente.');
-        }
+    const { handleDoLogout, loading, ong, incidents, deleteAnItem, loadingIncidents } = props;
+    if(loading){
+      return <Loading />
     }
-
-    function handleLogout() {
-        localStorage.clear();
-        navigation.push('/');
-    }
-    
     return(
         <div className="incident-container">
-            <header>
-                <img src={SmallLogo} alt="Be Hero" />
-                <span>Bem vindo, {ongName}</span>
-                <Link className="btn" to="/incidents/new">Cadastrar novo caso</Link>
-                <button type="button" onClick={handleLogout}>
-                    <FiPower size={18} color="#E02041"/>
-                </button>
-            </header>
+          <header>
+              <img src={SmallLogo} alt="Be Hero" />
+              <span>Bem vindo, {ong.name}</span>
+              <Link className="btnCustom" to="/incidents/store">Cadastrar novo caso</Link>
+              <button type="button" onClick={() => handleDoLogout(ong.id, navigation)}>
+                  <FiPower size={18} color="#E02041"/>
+              </button>
+          </header>
             <h1>Casos registrados</h1>
-            <IncidentsList 
+         { 
+            !loadingIncidents
+             ? <IncidentsList 
                 incidents={incidents} 
-                handleDeleteIncident={(itemId) => handleDeleteIncident(itemId)} 
-            />
+                handleDeleteIncident={(itemId) => deleteAnItem(itemId)} 
+               />
+             : <Loading />
+          }
         </div>
     );
 }
+
+const mapStateToProps = ({ sessionState, incidentState }) => ({
+  loading: sessionState.loading,
+  
+  ong: incidentState.ong,
+  loadingIncidents: incidentState.loadingIncidents,
+  incidents: incidentState.incidents
+});
+
+const mapDispatchToProps = {
+  handleDoLogout,
+  getIncidentsList,
+  deleteAnItem
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(IncidentsPage);

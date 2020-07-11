@@ -24,6 +24,8 @@
     width: 260px;
     margin-left: auto;
     margin-top: 0;
+    text-decoration: none;
+    color: #FFF
 }
 
 .incident-container header button {
@@ -53,7 +55,8 @@
 }
 
 .incident-container ul li {
-    background-color: #FFF;
+    background: #ededed;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
     padding: 24px;
     border-radius: 8px;
     position: relative;
