@@ -5,14 +5,16 @@ import Constants from 'expo-constants';
 import IncidentsList from '../../components/IncidentsList/IncidentsList';
 import { useNavigation } from '@react-navigation/native';
 import HttpRequest from '../../shared/httpRequest/HttpRequest';
+import { connect } from 'react-redux';
+import { loadIncidentsByPage } from './IncidentsScrenn.reducer';
 
-
-export default function IncidentsScreen(props){
-    const [ incidents, setIncidents ] = useState([]);
-    const [ totalItens, setTotalItens ] = useState(0);
-    const [ page, setPage ] = useState(1); // sempre deve começar com 1
-    const [ loading, setLoading ] = useState(false);
+function IncidentsScreen(props){
+    //const [ incidents, setIncidents ] = useState([]);
+    //const [ totalItens, setTotalItens ] = useState(0);
+    //const [ page, setPage ] = useState(1); // sempre deve começar com 1
+    //const [ loading, setLoading ] = useState(false);
     const navigation = useNavigation();
+    const { loading, incidents, page, totalItens, loadIncidentsByPage } = props;
 
     async function loadIncidents() {
         try{
@@ -52,6 +54,19 @@ export default function IncidentsScreen(props){
         </View>
     );
 }
+
+const mapStateToProps = ({ incidentsState }) => ({
+    loading: incidentsState.loading,
+    incidents: incidentsState.incidents,
+    page: incidentsState.page,
+    totalItens: incidentsState.totalItens
+});
+
+const mapDispatchToProps = {
+    loadIncidentsByPage
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(IncidentsScreen);
 
 const styles = StyleSheet.create({
     container:{

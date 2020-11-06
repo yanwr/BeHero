@@ -6,6 +6,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import SmallLogo from '../../assets/logo.svg';
 import HttpRequest from '../../shared/httpRequest/HttpRequest';
 import {setNewOng} from './RegisterPage.reducer';
+import Loading from '../../components/Loading/Loading';
 
 function RegisterPage(props) {
     const [ name, setName ] = useState('');
@@ -30,6 +31,7 @@ function RegisterPage(props) {
         setUf('');
     }
 
+    const { loading } = props;
     return(
         <div className="register-container">
             <div className="main-container">
@@ -76,7 +78,11 @@ function RegisterPage(props) {
                             onChange={ e => setUf(e.target.value)}
                         />
                     </div>
-                    <button type="submit" className="btnCustom" id="btnRegister">Cadastrar</button>
+                    {
+                        !loading 
+                        ? <button type="submit" className="btnCustom" id="btnRegister">Cadastrar</button>
+                        : <Loading />
+                    }
                 </form>
             </div>
         </div>
